@@ -4,7 +4,8 @@ import {
   SET_STAGE,
   SET_DIVISION,
   FIND_STUDENT,
-  DELETE_STUDENT
+  DELETE_STUDENT,
+  UPDATE_STUDENT
 } from "../actions/types";
 
 const initialState = {
@@ -26,6 +27,8 @@ export default (state = initialState, { type, payload }) => {
       return { ...state, division: payload };
     case FIND_STUDENT:
       return { ...state, items: payload };
+    case UPDATE_STUDENT:
+      return { ...state, item: payload };
     case DELETE_STUDENT:
       let newItems = state.items.filter(student => student.id !== payload.id);
       return { ...state, items: newItems };

@@ -4,16 +4,17 @@ import {
   SET_STAGE,
   SET_DIVISION,
   FIND_STUDENT,
+  UPDATE_STUDENT,
   DELETE_STUDENT
 } from "./types";
 
-export const createStudent = (newUser = {}) => dispatch => {
+export const createStudent = newStudent => dispatch => {
   fetch("http://localhost:8006/students", {
     method: "POST",
     headers: {
       "content-type": "application/json"
     },
-    body: JSON.stringify(newUser)
+    body: JSON.stringify(newStudent)
   })
     .then(res => res.json())
     .then(student => {
@@ -39,6 +40,20 @@ export const findStudent = search => dispatch => {
   fetch("http://localhost:8006/students?search=" + search)
     .then(res => res.json())
     .then(students => dispatch({ type: FIND_STUDENT, payload: students }));
+};
+
+export const updateStudent = updatedStudent => dispatch => {
+  fetch("http://localhost:8006/students/" + updatedStudent.id, {
+    method: "PUT",
+    headers: {
+      "content-type": "application/json"
+    },
+    body: JSON.stringify(updatedStudent)
+  })
+    .then(res => res.json())
+    .then(student => {
+      dispatch({ type: UPDATE_STUDENT, payload: student });
+    });
 };
 
 export const deleteStudent = id => dispatch => {

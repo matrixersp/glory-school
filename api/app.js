@@ -77,7 +77,7 @@ app.get("/students/:id", (req, res) => {
   });
 });
 
-app.patch("/students/:id", (req, res) => {
+app.put("/students/:id", (req, res) => {
   const id = req.params.id;
 
   let query = "UPDATE students SET ";
@@ -87,9 +87,12 @@ app.patch("/students/:id", (req, res) => {
 
   query = query.slice(0, query.length - 2);
 
-  db.run(query + ` WHERE id=${id}`, err => {
+  db.run(query + ` WHERE id=${id}`, (err, student) => {
     if (err) console.log(err);
-    res.send("Updated");
+    db.get("SELECT * FROM students WHERE id=?", id, (err, student) => {
+      if (err) console.log(err);
+      else res.send(student);
+    });
   });
 });
 

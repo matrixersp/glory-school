@@ -7,7 +7,6 @@ import {
   findStudent,
   deleteStudent
 } from "../../actions/studentActions";
-import { isAbsolute } from "path";
 
 class Students extends Component {
   constructor(props) {
@@ -15,10 +14,13 @@ class Students extends Component {
     this.props = props;
     this.i18n = props.i18n;
     this.locale = props.locale;
-    this.state = { displayEdit: "none" };
   }
 
   componentDidMount() {
+    this.props.fetchStudents();
+  }
+
+  componentWillReceiveProps() {
     this.props.fetchStudents();
   }
 
@@ -33,10 +35,6 @@ class Students extends Component {
     }
   }
 
-  handleEdit(id) {
-    this.setState({ displayEdit: "block" });
-  }
-
   handleStage = e => {
     const stage = this.i18n.getToken(e.target.value, this.locale);
     this.props.setStage(stage);
@@ -44,21 +42,9 @@ class Students extends Component {
 
   render() {
     const { items, stages, stage } = this.props.students;
-    const modalStyles = {
-      display: this.state.displayEdit,
-      position: "absolute",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      backgroundColor: "#ddd"
-    };
-    console.log(this.state.displayEdit);
     return (
       <div className="pane">
         <div className="padded-more">
-          <div style={modalStyles}>
-            <p>This is a modal window</p>
-          </div>
           <h3 className="text-center">قائمة التلاميذ</h3>
           <div className="container">
             <div className="half">
@@ -102,8 +88,8 @@ class Students extends Component {
             </thead>
             <tbody>
               {items.map(student => {
-                if (stage === student.stage)
-                  return (
+                return (
+                  stage === student.stage && (
                     <tr key={student.id}>
                       <td>{student.firstName}</td>
                       <td>{student.lastName}</td>
@@ -117,13 +103,14 @@ class Students extends Component {
                       </td>
                       <td>
                         <button
-                          onClick={this.handleEdit.bind(this, student.id)}
+                          onClick={this.props.onEdit.bind(this, student)}
                           className="btn btn-mini btn-positive">
                           {this.i18n.translate("EDIT", "Edit")}
                         </button>
                       </td>
                     </tr>
-                  );
+                  )
+                );
               })}
             </tbody>
           </table>

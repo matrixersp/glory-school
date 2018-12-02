@@ -70,7 +70,8 @@ export default {
     PHILOSOPHY: "الفلسفة",
     SEARCH: "البحث",
     DELETE: "حدف",
-    EDIT: "تعديل"
+    EDIT: "تعديل",
+    SAVE: "حفظ"
   },
   "fr-FR": {
     FIRST_NAME: "Prénom",

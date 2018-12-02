@@ -36,19 +36,19 @@ class AddStudent extends Component {
   handleAddStudent = e => {
     e.preventDefault();
     const data = new FormData(e.target);
-    const newUser = {};
+    const newStudent = {};
     const studyMaterials = [];
     data.forEach((value, key) => {
       if (key.includes("materials")) studyMaterials.push(value);
       else if (key === "stage")
-        newUser[key] = this.i18n.getToken(value, this.locale);
+        newStudent[key] = this.i18n.getToken(value, this.locale);
       else if (key === "division")
-        newUser[key] = this.i18n.getToken(value, this.locale);
-      else newUser[key] = value;
+        newStudent[key] = this.i18n.getToken(value, this.locale);
+      else newStudent[key] = value;
     });
-    newUser["materials"] = studyMaterials.join("|");
-    console.log(newUser);
-    this.props.createStudent(newUser);
+    newStudent["materials"] = studyMaterials.join("|");
+    console.log(newStudent);
+    this.props.createStudent(newStudent);
   };
 
   render() {
