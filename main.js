@@ -4,7 +4,11 @@ const { app, BrowserWindow } = require("electron"),
 
 let mainWindow;
 function createWindow() {
-  mainWindow = new BrowserWindow({ width: 860, height: 640, frame: false });
+  mainWindow = new BrowserWindow({
+    minWidth: 860,
+    minHeight: 640,
+    frame: false
+  });
 
   const startUrl =
     process.env.ELECTRON_START_URL ||
